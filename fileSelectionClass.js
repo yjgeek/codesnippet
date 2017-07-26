@@ -141,7 +141,6 @@ var FileSelection = (function () {
 		var self = this;
 		var files = self.$eInputFile.files;
 		var cutFileDatas = [];
-		if (self.$action !== 'push') { self.$values = []; }
 		self.$$queue(files, function (file, next) {
 			var fileData = self.$$parseFileData(file);
 			cutFileDatas.push(fileData);
@@ -165,6 +164,7 @@ var FileSelection = (function () {
 			});
 			if (self.$forcedChange) { self.$$createInputFile(); }
 			if (err) { return self.$onError && self.$onError(err.type, err.fileData, cutFileDatas, self.$values); }
+			if (self.$action !== 'push') { self.$values = []; }
 			self.$values.push.apply(self.$values, cutFileDatas);
 			self.$onChange && self.$onChange(cutFileDatas, self.$values);
 		});
