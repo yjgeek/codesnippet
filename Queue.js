@@ -28,10 +28,7 @@ var Queue = (function () {
 	}
 
 	Queue.prototype._start = function () {
-		if (this.tasks.length === 0) {
-			if ( this.concurrencyCut === 0 ) { return this.drain && this.drain(); }
-			return ;
-		} else if ( this.concurrencyCut >= this.concurrencyMax ) {
+		if (this.tasks.length === 0 || this.concurrencyCut >= this.concurrencyMax) {
 			return ;
 		}
 		var taskData = this.tasks.shift();
@@ -44,7 +41,8 @@ var Queue = (function () {
 		var taskData = this.taskData;
 		taskData.callback && taskData.callback.apply(this, arguments);
 		self.concurrencyCut -= 1;
-		if (self.tasks.length > 0) { return self._start(); }
+		if ( self.tasks.length > 0 ) { return self._start(); }
+		if ( self.concurrencyCut === 0 ) { return this.drain && this.drain(); }
 	};
 
 	Queue.prototype.push = function (task, callback) {
