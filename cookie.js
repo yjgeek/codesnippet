@@ -5,6 +5,7 @@ var cookie = function (window) {
 
 	/** 去掉前后空格 */
 	function trim (str) {
+		str = '' + str + '';
 		return str.replace(/(^\s*)|(\s*$)/, "");
 	}
 
