@@ -42,7 +42,7 @@ var Queue = (function () {
 		taskData.callback && taskData.callback.apply(this, arguments);
 		self.concurrencyCut -= 1;
 		if ( self.tasks.length > 0 ) { return self._start(); }
-		if ( self.concurrencyCut === 0 ) { return this.drain && this.drain(); }
+		if ( self.concurrencyCut === 0 ) { return self.drain && self.drain(); }
 	};
 
 	Queue.prototype.push = function (task, callback) {
